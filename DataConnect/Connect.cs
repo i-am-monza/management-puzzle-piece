@@ -3,12 +3,12 @@ using MySql.Data.MySqlClient;
 
 namespace DataConnect
 {
-    public class Connect
+    public abstract class Connect
     {
-        Connect()
+        public void ConnectToDatabase()
         {
             // assign a connection string to database
-            string connectionString = "server=localhost;database=Management;uid=root;";
+            string connectionString = "server=localhost;user id=root;database=users";
             // create connection object for opening connection
             MySqlConnection connection = new MySqlConnection(connectionString);
 
@@ -24,6 +24,8 @@ namespace DataConnect
             {
                 Console.WriteLine("Error: {0}", e);
             }
+
+            connection.Close();
         }
     }
 }

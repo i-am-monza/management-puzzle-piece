@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Operator", "Operator\Operat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Managers", "Managers\Managers.csproj", "{EABF2C7B-BCFC-4E68-9645-63AFBD5B7E47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataConnect", "DataConnect\DataConnect.csproj", "{7BB642EE-3D13-42B6-BC55-297EF052E70A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EABF2C7B-BCFC-4E68-9645-63AFBD5B7E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EABF2C7B-BCFC-4E68-9645-63AFBD5B7E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EABF2C7B-BCFC-4E68-9645-63AFBD5B7E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BB642EE-3D13-42B6-BC55-297EF052E70A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB642EE-3D13-42B6-BC55-297EF052E70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB642EE-3D13-42B6-BC55-297EF052E70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB642EE-3D13-42B6-BC55-297EF052E70A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

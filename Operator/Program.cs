@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Managers;
+using System;
 
 namespace Operator
 {
@@ -6,7 +7,7 @@ namespace Operator
     {
         static void Main(string[] args)
         {
-
+            Manage manager = new Manage();
         }
     }
 }
