@@ -5,8 +5,8 @@ namespace Managers
 {
     public class Manage : Connect
     {
-        // method for connecting to the database
-        public Manage()
+        // method for managing registed table
+        public void ManageRegistered()
         {
             // connect to database
             ConnectToDatabase();
