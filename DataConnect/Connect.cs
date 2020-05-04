@@ -1,19 +1,15 @@
 ﻿using System;
+using System.Data;
 using MySql.Data.MySqlClient;
 
 namespace DataConnect
 {
-    public abstract class Connect
+    public abstract class Connect 
     {
         // create connection object for opening connection
         MySqlConnection connection;
 
-        public MySqlConnection GiveAcces()
-        {
-            return connection;
-        }
-
-        public void ConnectToDatabase()
+        public MySqlConnection ConnectToDatabase()
         {
             // assign a connection string to database
             string connectionString = "server=localhost;user id=root;database=users";
@@ -26,10 +22,12 @@ namespace DataConnect
                 connection.Open();
 
                 Console.WriteLine("Connection Open!");
+
+                return connection;
             } 
             catch(Exception e)
             {
-                Console.WriteLine("Error: {0}", e);
+                throw new Exception("Error: {0}", e);
             }
         }
 
@@ -50,53 +48,18 @@ namespace DataConnect
         }
 
         // method for inserting a new user
-        public bool InsertToDatabase(string userName, bool emplSTatus, string[] skills, DateTime regDate, string table = "registered")
-        {
-            /*
-             * code here
-             */
-
-            return true;
-        }
+        public abstract bool InsertToDatabase(string userName, bool emplSTatus, string[] skills, DateTime regDate);
 
         // a method for viewing all users
-        public string[] ViewAllUsers(string table = "registered")
-        {
-            /*
-             * code here
-             */
-
-            return new string[0];
-        }
+        public abstract DataTable ViewAllUsers();
 
         // a method for searching with user id
-        public string[] SearchUser(string id, string table = "registered")
-        {
-            /*
-             * code here
-             */
-
-            return new string[0];
-        }
+        public abstract DataTable SearchUser(string id);
 
         // a method for updating user details
-        public bool UpdateUser(string id, string fieldForUpdate, string update, string table = "registered")
-        {
-            /*
-             * code here
-             */
-
-            return false;
-        }
-
+        public abstract bool UpdateUser(string id, string fieldForUpdate, string value);
+        
         // a method for deleting a user from records
-        public bool DeleteUser(string id, string table = "registered")
-        {
-            /*
-             * code here
-             */
-
-            return false;
-        }
+        public abstract bool DeleteUser(string id);
     }
 }
