@@ -51,7 +51,7 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectTest.cs" />
+    <Compile Include="ManageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,8 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataConnect\DataConnect.csproj">
-      <Project>{7bb642ee-3d13-42b6-bc55-297ef052e70a}</Project>
+      <Project>{7BB642EE-3D13-42B6-BC55-297EF052E70A}</Project>
       <Name>DataConnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Managers\Managers.csproj">
+      <Project>{eabf2c7b-bcfc-4e68-9645-63afbd5b7e47}</Project>
+      <Name>Managers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

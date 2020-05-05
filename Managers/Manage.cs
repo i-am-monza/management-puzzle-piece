@@ -50,7 +50,7 @@ namespace Managers
                 // create an object for storing table
                 DataTable results = new DataTable();
 
-                using (MySqlDataAdapter dataAdapter = new MySqlDataAdapter(new MySqlCommand(query)))
+                using (MySqlDataAdapter dataAdapter = new MySqlDataAdapter(new MySqlCommand(query, connect)))
                 {
                     dataAdapter.Fill(results);
                 }
@@ -67,11 +67,11 @@ namespace Managers
             }
         }
 
-        public override DataTable SearchUser(string id)
+        public override DataTable SearchUser(int id)
         {
             try
             {
-                string query = "SELECT * FROM registered WHERE Id = ?id;";
+                string query = "SELECT * FROM registered WHERE Id=?id;";
                 // initialise table object for result
                 DataTable result = new DataTable();
                 // create command
@@ -94,14 +94,49 @@ namespace Managers
             }
         }
 
-        public override bool UpdateUser(string id, string fieldForUpdate, string value)
+        public override bool UpdateUser(int id, string fieldForUpdate, string value)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string query = "UPDATE registered SET " + fieldForUpdate + "='" + value + "' WHERE Id=?id;";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connect))
+                {
+                    cmd.Parameters.Add("?id", MySqlDbType.Int32).Value = id;
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                // close connection if fail
+                CloseDatabaseConnection();
+
+                throw new Exception("Error: {0}", e);
+            }
         }
 
-        public override bool DeleteUser(string id)
+        public override bool DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string query = "DELETE FROM registered WHERE Id=?id;";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connect))
+                {
+                    cmd.Parameters.Add("?id", MySqlDbType.Int32).Value = id;
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            } catch (Exception e)
+            {
+                // close connection if fail
+                CloseDatabaseConnection();
+
+                throw new Exception("Error: {0}", e);
+            }
         }
     }
 }

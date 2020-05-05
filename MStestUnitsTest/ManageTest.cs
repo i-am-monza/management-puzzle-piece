@@ -1,49 +1,28 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DataConnect;
+using Managers;
+using System.Data;
 
 namespace MStestUnitsTest
 {
     [TestClass]
     /*Test cases for the Connect class under DataConnect project 
      */
-    public class ConnectTest : Connect
+    public class ManageTest
     {
-        [TestMethod]
-        public void TestConnectToDatabase()
-        {
-            // connect to the database server
-            ConnectToDatabase();
-
-            // ping database server by accessing connection object
-            bool result = GiveAcces().Ping();
-
-            // ping the connected database
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void TestCloseDatabaseConnection()
-        {
-            // ping database server by accessing connection object
-            bool result = GiveAcces().Ping();
-
-            // ping the connected database
-            Assert.IsNull(result);
-        }
-
         [TestMethod]
         public void TestInsertToDatabase()
         {
+            // Manage instance
+            Manage manager = new Manage();
             // setup user variables
             string userName = "Test Name";
             bool emplStatus = false;
             string[] skills = { "Testing" };
             DateTime regDate = new DateTime().Date;
-            string table = "users";
 
             // initiate insert action with details
-            bool result = InsertToDatabase(userName, emplStatus, skills, regDate, table);
+            bool result = manager.InsertToDatabase(userName, emplStatus, skills, regDate);
 
             // check if insert is success
             Assert.IsTrue(result);
@@ -52,39 +31,47 @@ namespace MStestUnitsTest
         [TestMethod]
         public void TestViewAllUsers()
         {
-            // declare a empty users array
-            string[] users;
-
+            // Manage instance
+            Manage manager = new Manage();
+        
             // get all users
-            users = ViewAllUsers();
+            DataTable users = manager.ViewAllUsers();
 
             // test if users are returned
-            Assert.AreEqual(users.Length, 1);
+            Assert.AreNotEqual(users.Rows, 0);
         }
 
         [TestMethod]
         public void TestSearchUser()
         {
+            // Manage instance
+            Manage manager = new Manage();
             // id to test
-            string id = "id";
+            int id = 0;
 
             // get users details
-            string[] user = SearchUser(id);
-
-            // check the user
-            Assert.AreEqual(user[0], id);
+            DataTable user = manager.SearchUser(id);
+            // search for specific id
+            foreach(DataRow row in user.Rows)
+            {
+                if (Int32.Parse(row["Id"].ToString()) == id)
+                    // check the user
+                    Assert.IsTrue(true);
+            }
         }
 
         [TestMethod]
         public void TestUpdateUser()
         {
+            // Manage instance
+            Manage manager = new Manage();
             // prepare required variables
-            string id = "id";
+            int id = 0;
             string fieldToUpdate = "Name";
-            string update = "Test Name Update";
+            string update = "Test Neame Update";
 
             // initiate update action
-            bool result = UpdateUser(id, fieldToUpdate, update);
+            bool result = manager.UpdateUser(id, fieldToUpdate, update);
 
             // check result
             Assert.IsTrue(result);
@@ -92,12 +79,14 @@ namespace MStestUnitsTest
 
         [TestMethod]
         public void TestDeleteUser()
-        {
+        {   
+            // Manage instance
+            Manage manager = new Manage();
             // user id for deleting
-            string id = "id";
+            int id = 0;
 
             // initiate action
-            bool result = DeleteUser(id);
+            bool result = manager.DeleteUser(id);
 
             // check result
             Assert.IsTrue(result);

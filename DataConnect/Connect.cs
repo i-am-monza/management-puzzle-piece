@@ -36,7 +36,7 @@ namespace DataConnect
             // just in case things break
             try
             {
-                //  conclosenection
+                //  close conection
                 await connection.CloseAsync();
 
                 Console.WriteLine("Connection Closed!");
@@ -54,12 +54,12 @@ namespace DataConnect
         public abstract DataTable ViewAllUsers();
 
         // a method for searching with user id
-        public abstract DataTable SearchUser(string id);
+        public abstract DataTable SearchUser(int id);
 
         // a method for updating user details
-        public abstract bool UpdateUser(string id, string fieldForUpdate, string value);
+        public abstract bool UpdateUser(int id, string fieldForUpdate, string value);
         
         // a method for deleting a user from records
-        public abstract bool DeleteUser(string id);
+        public abstract bool DeleteUser(int id);
     }
 }
