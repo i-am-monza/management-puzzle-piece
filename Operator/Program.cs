@@ -12,7 +12,8 @@ namespace Operator
             Console.WriteLine("1. regigered.");
             Console.Write("So, which table do you wanna mess with? ");
             // get users choice
-            int choice = Console.Read();
+            int choice = Int32.Parse(Console.ReadLine());
+            Console.WriteLine(choice + " " + choice.GetType());
 
             switch(choice)
             {
@@ -89,7 +90,7 @@ namespace Operator
                                 case 'C':
                                     {
                                         Console.Write("Please enter the user id you'd like to search: ");
-                                        int searchId = Console.Read();
+                                        int searchId = Int32.Parse(Console.ReadLine());
                                         Console.Write("");
 
                                         DataTable userRecord = managerForRegistered.SearchUser(searchId);
@@ -108,7 +109,7 @@ namespace Operator
                                 case 'D':
                                     {
                                         Console.Write("Please specify user Id for updating: ");
-                                        int id = Console.Read();
+                                        int id = Int32.Parse(Console.ReadLine());
                                         Console.Write("");
                                         Console.Write("Please enter the field/property you'd like to update: ");
                                         string field = Console.ReadLine();
@@ -132,7 +133,7 @@ namespace Operator
                                 case 'E':
                                     {
                                         Console.Write("Enter the Id you'd like to delete: ");
-                                        int id = Console.Read();
+                                        int id = Int32.Parse(Console.ReadLine());
                                         Console.Write("");
 
                                         // initiate delete
@@ -151,10 +152,8 @@ namespace Operator
                             }
                         } while (command != 'F');
 
-                        break;
-                    }
-                default:
-                    {
+                        managerForRegistered.CloseDatabaseConnection();
+
                         break;
                     }
             }

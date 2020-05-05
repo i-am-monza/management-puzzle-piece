@@ -47,7 +47,7 @@ namespace MStestUnitsTest
             // Manage instance
             Manage manager = new Manage();
             // id to test
-            int id = 0;
+            int id = 5;
 
             // get users details
             DataTable user = manager.SearchUser(id);
@@ -55,7 +55,7 @@ namespace MStestUnitsTest
             foreach(DataRow row in user.Rows)
             {
                 if (Int32.Parse(row["Id"].ToString()) == id)
-                    // check the user
+                    // check the user 
                     Assert.IsTrue(true);
             }
         }
