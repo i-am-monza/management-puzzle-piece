@@ -19,10 +19,9 @@ namespace MStestUnitsTest
             string userName = "Test Name";
             bool emplStatus = false;
             string[] skills = { "Testing" };
-            DateTime regDate = new DateTime().Date;
 
             // initiate insert action with details
-            bool result = manager.InsertToDatabase(userName, emplStatus, skills, regDate);
+            bool result = manager.InsertToDatabase(userName, emplStatus, skills, DateTime.Now);
 
             // check if insert is success
             Assert.IsTrue(result);

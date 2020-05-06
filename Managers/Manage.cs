@@ -27,7 +27,7 @@ namespace Managers
                 {
                     cmd.Parameters.Add("?Name", MySqlDbType.VarChar).Value = userName;
                     cmd.Parameters.Add("?Empl_Status", MySqlDbType.VarChar).Value = emplSTatus;
-                    cmd.Parameters.Add("?Skills", MySqlDbType.VarChar).Value = skills;
+                    cmd.Parameters.Add("?Skills", MySqlDbType.VarChar).Value = string.Join(",", skills);
                     cmd.Parameters.Add("?Reg_Date", MySqlDbType.DateTime).Value = regDate;
                     cmd.ExecuteNonQuery();
 
