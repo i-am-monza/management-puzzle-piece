@@ -39,6 +39,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=8.0.20.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,10 +60,6 @@
     <ProjectReference Include="..\DataConnect\DataConnect.csproj">
       <Project>{7BB642EE-3D13-42B6-BC55-297EF052E70A}</Project>
       <Name>DataConnect</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Managers\Managers.csproj">
-      <Project>{eabf2c7b-bcfc-4e68-9645-63afbd5b7e47}</Project>
-      <Name>Managers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

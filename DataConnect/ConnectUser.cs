@@ -8,7 +8,14 @@ namespace DataConnect
 
     public class ConnectUser : IConnect
     {
+        IConnect connectedUser;
+
         MySqlConnection connection;
+
+        public ConnectUser(IConnect connect)
+        {
+            connectedUser = connect;
+        }
        
         public void CloseDatabase()
         {
@@ -22,9 +29,9 @@ namespace DataConnect
             }
         }
 
-        public void ConnectToDatabase(string connectionString)
+        public void ConnectToDatabase(MySqlConnection connection_)
         {
-            connection = new MySqlConnection(connectionString);
+            connection = connection_;
 
             try
             {
@@ -91,9 +98,7 @@ namespace DataConnect
             try
             {
                 string query = "SELECT * FROM registered WHERE Id=?id;";
-                // initialise table object for result
                 DataTable result = new DataTable();
-                // create command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.Add("?id", MySqlDbType.Int32).Value = id;
 
@@ -141,7 +146,6 @@ namespace DataConnect
             try
             {
                 string query = "SELECT * FROM registered;";
-                // create an object for storing table
                 DataTable results = new DataTable();
 
                 using (MySqlDataAdapter dataAdapter = new MySqlDataAdapter(new MySqlCommand(query, connection)))

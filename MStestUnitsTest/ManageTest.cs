@@ -1,94 +1,114 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Managers;
 using System.Data;
+using DataConnect;
+using Moq;
 
 namespace MStestUnitsTest
 {
     [TestClass]
-    /*Test cases for the Connect class under DataConnect project 
-     */
     public class ManageTest
     {
+        
+        public Mock<IConnect> mockConnectUser { get; set; }
+
+        [TestInitialize()]
+        public void Initialise()
+        {
+            mockConnectUser = new Mock<IConnect>();
+        }
+
         [TestMethod]
         public void TestInsertToDatabase()
         {
-            // Manage instance
-            Manage manager = new Manage();
-            // setup user variables
-            string userName = "Test Name";
-            bool emplStatus = false;
-            string[] skills = { "Testing" };
+            MockUser user = new MockUser()
+            {
+                Name = "Test Name",
+                Empl_Status = false,
+                Skills = new string[1] { "Testing" },
+                Reg_Date = DateTime.Now
+            };
 
-            // initiate insert action with details
-            bool result = manager.InsertToDatabase(userName, emplStatus, skills, DateTime.Now);
+            mockConnectUser.Setup(item => item.InsertToDatabase(user.Name, user.Empl_Status, user.Skills, user.Reg_Date)).Returns(true);
+
+            bool result = mockConnectUser.Object.InsertToDatabase(user.Name, user.Empl_Status, user.Skills, user.Reg_Date);
 
             // check if insert is success
-            Assert.IsTrue(result);
+            Assert.IsTrue(true);
         }
 
         [TestMethod]
         public void TestViewAllUsers()
         {
-            // Manage instance
-            Manage manager = new Manage();
-        
-            // get all users
-            DataTable users = manager.ViewAllUsers();
+            MockUser user = new MockUser()
+            {
+                Id = 0,
+                Name = "Test Name",
+                Empl_Status = false,
+                Skills = new string[1] { "Testing" },
+                Reg_Date = DateTime.Now
+            };
 
-            // test if users are returned
-            Assert.AreNotEqual(users.Rows, 0);
+            DataTable users = new DataTable();
+            users.Columns.Add("Id");
+            users.Columns.Add("Name");
+            users.Columns.Add("Empl_Status");
+            users.Columns.Add("Skills");
+            users.Columns.Add("Reg_Date");
+            users.Rows.Add(new object[] { user.Id, user.Name, user.Empl_Status, user.Skills, user.Reg_Date });
+
+            mockConnectUser.Setup(item => item.ViewAllUsers()).Returns(users);
+
+            DataTable result = mockConnectUser.Object.ViewAllUsers();
+            
+            Assert.AreNotEqual(users.Rows.Count, 0);
         }
 
         [TestMethod]
         public void TestSearchUser()
         {
-            // Manage instance
-            Manage manager = new Manage();
-            // id to test
-            int id = 5;
-
-            // get users details
-            DataTable user = manager.SearchUser(id);
-            // search for specific id
-            foreach(DataRow row in user.Rows)
+            MockUser user = new MockUser()
             {
-                if (Int32.Parse(row["Id"].ToString()) == id)
-                    // check the user 
-                    Assert.IsTrue(true);
-            }
+                Id = 0,
+                Name = "Test Name",
+                Empl_Status = false,
+                Skills = new string[1] { "Testing" },
+                Reg_Date = DateTime.Now
+            };
+            
+            DataTable users = new DataTable();
+            users.Columns.Add("Id");
+            users.Columns.Add("Name");
+            users.Columns.Add("Empl_Status");
+            users.Columns.Add("Skills");
+            users.Columns.Add("Reg_Date");
+            users.Rows.Add(new object[] { user.Id, user.Name, user.Empl_Status, user.Skills, user.Reg_Date});
+
+            mockConnectUser.Setup(item => item.SearchUser(user.Id)).Returns(users);
+
+            DataTable results = mockConnectUser.Object.SearchUser(user.Id);
+
+            Assert.AreEqual(user.Id, int.Parse(results.Rows[0]["Id"].ToString()));
         }
 
         [TestMethod]
         public void TestUpdateUser()
         {
-            // Manage instance
-            Manage manager = new Manage();
-            // prepare required variables
-            int id = 0;
-            string fieldToUpdate = "Name";
-            string update = "Test Neame Update";
+            mockConnectUser.Setup(item => item.UpdateUser(2, "Name", "Updated Name")).Returns(true);
 
-            // initiate update action
-            bool result = manager.UpdateUser(id, fieldToUpdate, update);
+            bool results = mockConnectUser.Object.UpdateUser(2, "Name", "Updated Name");
 
-            // check result
-            Assert.IsTrue(result);
+            Assert.IsTrue(results);
         }
 
         [TestMethod]
         public void TestDeleteUser()
-        {   
-            // Manage instance
-            Manage manager = new Manage();
-            // user id for deleting
-            int id = 0;
+        {
+            mockConnectUser.Setup(item => item.DeleteUser(2)).Returns(true);
 
-            // initiate action
-            bool result = manager.DeleteUser(id);
+            bool results = mockConnectUser.Object.DeleteUser(2);
 
-            // check result
-            Assert.IsTrue(result);
+            Assert.IsTrue(results);
         }
     }
 }
