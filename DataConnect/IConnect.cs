@@ -8,7 +8,7 @@ namespace DataConnect
     {
         void ConnectToDatabase(MySqlConnection connection);
 
-        void CloseDatabase();
+        void CloseDatabase(MySqlConnection connection);
 
         bool InsertToDatabase(string userName, bool emplSTatus, string[] skills, DateTime regDate);
 

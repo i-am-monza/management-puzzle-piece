@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Data;
-using System.Linq.Expressions;
 using MySql.Data.MySqlClient;
 
 namespace DataConnect
 {
-
     public class ConnectUser : IConnect
     {
-        IConnect connectedUser;
-
         MySqlConnection connection;
-
-        public ConnectUser(IConnect connect)
-        {
-            connectedUser = connect;
-        }
        
-        public void CloseDatabase()
+        public void CloseDatabase(MySqlConnection connection_)
         {
+            connection = connection_;
+
             try
             {
                 connection.Close();
@@ -60,9 +53,6 @@ namespace DataConnect
             }
             catch (Exception e)
             {
-                // close connection if fail
-                CloseDatabase();
-
                 throw new Exception("Error: {0}", e);
             }
         }
@@ -86,9 +76,6 @@ namespace DataConnect
             }
             catch (Exception e)
             {
-                // close connection if fail
-                CloseDatabase();
-
                 throw new Exception("Error: {0}", e);
             }
         }
@@ -98,7 +85,9 @@ namespace DataConnect
             try
             {
                 string query = "SELECT * FROM registered WHERE Id=?id;";
+
                 DataTable result = new DataTable();
+
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.Add("?id", MySqlDbType.Int32).Value = id;
 
@@ -111,9 +100,6 @@ namespace DataConnect
             }
             catch (Exception e)
             {
-                // close connection if fail
-                CloseDatabase();
-
                 throw new Exception("Error: {0}", e);
             }
         }
@@ -134,9 +120,6 @@ namespace DataConnect
             }
             catch (Exception e)
             {
-                // close connection if fail
-                CloseDatabase();
-
                 throw new Exception("Error: {0}", e);
             }
         }
@@ -146,6 +129,7 @@ namespace DataConnect
             try
             {
                 string query = "SELECT * FROM registered;";
+
                 DataTable results = new DataTable();
 
                 using (MySqlDataAdapter dataAdapter = new MySqlDataAdapter(new MySqlCommand(query, connection)))
@@ -158,9 +142,6 @@ namespace DataConnect
             }
             catch (Exception e)
             {
-                // close connection if fail
-                CloseDatabase();
-
                 throw new Exception("Error: {0}", e);
             }
         }

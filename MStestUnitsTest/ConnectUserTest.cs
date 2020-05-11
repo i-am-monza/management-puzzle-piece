@@ -3,11 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using DataConnect;
 using Moq;
+using MySql.Data.MySqlClient;
 
 namespace MStestUnitsTest
 {
     [TestClass]
-    public class ManageTest
+    public class ConnectUserTest
     {
         
         public Mock<IConnect> mockConnectUser { get; set; }
@@ -16,6 +17,16 @@ namespace MStestUnitsTest
         public void Initialise()
         {
             mockConnectUser = new Mock<IConnect>();
+        }
+
+        [TestMethod]
+        public void TestThrownNewException_ReturnedByConnectToDatabase()
+        {
+            MySqlConnection cn = new MySqlConnection("server=l;user id=ro;database=us");
+
+            mockConnectUser.Setup(item => item.ConnectToDatabase(cn)).Throws(new Exception("Invalid connection."));
+
+            Assert.ThrowsException<Exception>(() => mockConnectUser.Object.ConnectToDatabase(cn));
         }
 
         [TestMethod]

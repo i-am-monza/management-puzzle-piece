@@ -8,10 +8,11 @@ namespace Operator
     class Program
     {
         static IConnect connectActions;
+        static MySqlConnection connection;
 
         static void Main(string[] args)
         {
-            connectActions = new ConnectUser(connectActions);
+            connectActions = new ConnectUser();
 
             Start();
         }
@@ -34,15 +35,15 @@ namespace Operator
                 Console.WriteLine("\tH. Exit application");
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-
                 switch (command = Console.ReadLine().ToUpper()[0])
                 {
                     case 'A':
                         {
-                            MySqlConnection connection = new MySqlConnection("server=localhost;user id=root;database=users");
-
+                            connection = new MySqlConnection("server=localhost;user id=root;database=users");
+                            
                             connectActions.ConnectToDatabase(connection);
 
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine("Connected.!");
 
                             break;
@@ -59,21 +60,16 @@ namespace Operator
                             Console.Write("");
                             Console.Write("Are you legally employed? [Y/N]: ");
                             Console.ForegroundColor = ConsoleColor.Yellow;
+                            string inEmplRes = Console.ReadLine();
 
-                            char emplRes = 'N';
-                            try
+                            char emplRes = '?';
+
+                            if(Char.IsLetter(inEmplRes[0]))
                             {
-                                emplRes = Console.ReadLine().ToUpper().ToCharArray()[0];
-                            }
-                            catch
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Error with entered input type.\nPlease specificly enter 'Y' for yes or 'N' for no. ");
-                                Console.ForegroundColor = ConsoleColor.White;
-                                Console.Write("Lets try again: ");
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                emplRes = Console.ReadLine().ToUpper().ToCharArray()[0];
-                                Console.ForegroundColor = ConsoleColor.White;
+                                if(inEmplRes.ToUpper()[0] == 'Y' || inEmplRes.ToUpper()[0] == 'N')
+                                {
+                                    emplRes = inEmplRes.ToUpper()[0];
+                                }
                             }
 
                             Console.ForegroundColor = ConsoleColor.White;
@@ -83,15 +79,20 @@ namespace Operator
                             string[] skills = Console.ReadLine().Split(',');
                             Console.ForegroundColor = ConsoleColor.White;
 
-                            // update employement status
-                            bool emplStatus = false;
-                            if (emplRes == 'Y')
+                            // cleanup
+                            int index = 0;
+                            foreach(string item in skills)
                             {
-                                emplStatus = true;
+                                if(item.EndsWith(" "))
+                                {
+                                    skills[index] = item.Substring(0, item.Length - 1);
+                                }
+
+                                index++;
                             }
 
-                            // insert fucntion
-                            bool cmdStatus = connectActions.InsertToDatabase(name, emplStatus, skills, DateTime.Now);
+                            // insert function
+                            bool cmdStatus = connectActions.InsertToDatabase(name, emplRes == 'Y', skills, DateTime.Now);
 
                             if (cmdStatus)
                             {
@@ -105,6 +106,7 @@ namespace Operator
                                 Console.WriteLine("Error inserting user.");
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
+
                             break;
                         }
 
@@ -232,7 +234,8 @@ namespace Operator
 
                     case 'G':
                         {
-                            connectActions.CloseDatabase();
+                            connectActions.CloseDatabase(connection);
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine("Connection closed!");
 
                             break;
@@ -254,7 +257,7 @@ namespace Operator
             } while (command != 'H');
 
             Console.ForegroundColor = ConsoleColor.White;
-            connectActions.CloseDatabase();
+            connectActions.CloseDatabase(connection);
         }
     }
 }
